@@ -28,7 +28,7 @@ import { BoardUserComponent } from './board-user/board-user.component';
     BoardUserComponent,
     HelloComponent,
   ],
-  providers [authInterceptorProviders],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
