@@ -6,7 +6,7 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  imageUnifespLogo = '../../assets/images/unifespLogo.png';
+  imageUnifespLogo = 'https://www.unifesp.br/reitoria/dci/images/docs/manual_da_marca/Unifesp_completa_verde_negativo_RGB.png';
   content?: string;
   constructor(private userService: UserService) {}
   ngOnInit(): void {

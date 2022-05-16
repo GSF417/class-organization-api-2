@@ -7,7 +7,7 @@ import { UserService } from '../_services/user.service';
   styleUrls: ['./board-user.component.css'],
 })
 export class BoardUserComponent implements OnInit {
-  content?: string;
+  content?: string = 'Classes Completed: link Classes Suggested: link';
   constructor(private userService: UserService) {}
   ngOnInit(): void {
     this.userService.getUserBoard().subscribe(
