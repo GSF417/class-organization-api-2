@@ -77,11 +77,37 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
         {
-            _context.TodoItems.Add(todoItem);
-            await _context.SaveChangesAsync();
+            var exists = _context.TodoItems.FirstOrDefault(x => x.Email == todoItem.Email);
 
-            //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
+            if (exists == null){
+                _context.TodoItems.Add(todoItem);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
+            }
+
+            return null;
+            
+            
+        }
+
+        // POST: api/TodoItems
+        [HttpPost("login")]
+        public async Task<ActionResult<TodoItem>> PostToFoundItem(TodoItem todoItem)
+        {
+            var user = _context.TodoItems.FirstOrDefault(x => x.Email == todoItem.Email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if(user.Keyword == todoItem.Keyword)
+            {
+                return user;
+            }
+
+            return null;
+            
         }
 
         // DELETE: api/TodoItems/5
