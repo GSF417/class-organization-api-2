@@ -1,12 +1,12 @@
 <header>Classes Page</header>
-<body >
+<body>
   <input
     type="file"
     class="file-input"
     (change)="onFileSelected($event)"
     #fileUpload
   />
-
+  <h3>Upload PDF</h3>
   <div class="file-upload">
     {{ fileName || 'No file uploaded yet.' }}
 
@@ -18,5 +18,17 @@
     >
       <div>attach_file</div>
     </button>
+  </div>
+  <h3>Manual Upload</h3>
+
+  <h3>Classes</h3>
+  <div *ngFor="let UC of UCs">
+    <h4>
+      <a [title]="UC.name + ' details'">
+        {{ UC.name }}
+      </a>
+    </h4>
+
+    <p *ngIf="UC.description">Description: {{ UC.description }}</p>
   </div>
 </body>

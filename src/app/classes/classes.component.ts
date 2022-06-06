@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../_services/auth.service';
+import { TokenStorageService } from '../_services/token-storage.service';
+import { UCs } from '../UCs';
 
 @Component({
   selector: 'app-classes',
@@ -8,10 +11,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ClassesComponent implements OnInit {
   fileName = '';
+  errorMessage = '';
+  form_class: any = {
+    email: null,
+    password: null,
+  };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService,
+    private tokenStorage: TokenStorageService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   onFileSelected(event) {
     const file: File = event.target.files[0];
@@ -27,5 +39,21 @@ export class ClassesComponent implements OnInit {
 
       upload$.subscribe();
     }
+  }
+  onSubmit(): void {
+    const { email, password } = this.form_class;
+    this.authService.login(email, password).subscribe(
+      (data) => {
+        this.tokenStorage.saveToken(data.accessToken);
+        this.tokenStorage.saveUser(data);
+        this.reloadPage();
+      },
+      (err) => {
+        this.errorMessage = err.error.message;
+      }
+    );
+  }
+  reloadPage(): void {
+    window.location.reload();
   }
 }
